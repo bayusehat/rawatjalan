@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url();?>assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="<?php echo base_url();?>assets/img/favicon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="<?php echo base_url();?>assets/img/hospital.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<title>Sistem Informasi Rawat Jalan</title>
@@ -41,6 +41,9 @@
         body{
             max-width: 100%;
         }
+        .modal-backdrop.in{
+            z-index: 1;
+        }
         #asuransi{
             display: none;
         }
@@ -74,13 +77,13 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="http://www.creative-tim.com" class="simple-text">
-                   Rawat Jalan
+                   <i><img src="<?php echo base_url();?>assets/img/hospital-lg.png" style="width:30px;height:30px"></i> Rawat Jalan
                 </a>
             </div>
 
             <ul class="nav">
                 <li>
-                    <a href="#">
+                    <a href="<?php echo base_url();?>index.php/admin">
                         <i class="ti-panel"></i>
                         <p>Dashboard</p>
                     </a>
@@ -101,6 +104,12 @@
                     <a href="<?php echo base_url();?>index.php/admin/data_pembayaran">
                         <i class="ti-text"></i>
                         <p>Data Pembayaran</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url();?>index.php/admin/data_dokter">
+                        <i class="ti-pin"></i>
+                        <p>Data Dokter</p>
                     </a>
                 </li>
             </ul>

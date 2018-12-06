@@ -64,7 +64,7 @@
                                             </select>
                                     </div>
                                 </div>
- <input type="submit" name="submit" class="btn btn-fill btn-info btn-wd" value="Simpan" style="margin:10px;width: 98%"> 
+                    <input type="submit" name="submit" class="btn btn-fill btn-info btn-wd" value="Simpan" style="margin:10px;width: 98%"> 
                 </form>
             </div>
         </div>

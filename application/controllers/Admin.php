@@ -89,6 +89,25 @@ class Admin extends CI_Controller {
 	// 	$this->dompdf->stream('Cetak.pdf',array('Attachment'=>0));
 	// }
 
+	public function data_dokter()
+	{
+		$data['main_view'] = 'data_dokter';
+		$data['dokter'] = $this->Rawat_model->data_dokter();
+
+		$this->load->view('template', $data);
+	}
+
+	public function tambah_dokter()
+	{
+		if($this->Rawat_model->tambah_dokter() == TRUE){
+			$this->session->set_flashdata('berhasil', 'Dokter berhasil disimpan');
+			redirect('admin/data_dokter','refresh');
+		}else{
+			$this->session->set_flashdata('gagal', 'Dokter gagal disimpan');
+			redirect('admin/data_dokter','refresh');
+		}
+	}
+
 }
 
 /* End of file Admin.php */

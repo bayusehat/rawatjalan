@@ -28,6 +28,12 @@ class Rawat_model extends CI_Model {
 						->result();
 	}
 
+	public function data_dokter()
+	{
+		return $this->db->get('tb_dokter')
+						->result();
+	}
+
 	public function tambah_pasien()
 	{
 		$nama = $this->input->post('nama_pasien');
@@ -110,6 +116,24 @@ class Rawat_model extends CI_Model {
 			return FALSE;
 		}
 	}
+
+	public function tambah_dokter()
+	{
+		$data = array(
+			'nama_dokter' => $this->input->post('nama_dokter'),
+			'alamat_dokter' => $this->input->post('alamat_dokter') 
+		);
+
+		$this->db->insert('tb_dokter',$data);
+		
+		if($this->db->affected_rows() > 0){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
+
+
 
 }
 
