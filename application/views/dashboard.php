@@ -56,13 +56,13 @@
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-danger text-center">
-                                            <i class="ti-pulse"></i>
+                                            <i class="ti-wallet"></i>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Dokter</p>
-                                            <?php echo $this->db->count_all_results('tb_dokter');?>
+                                            <p>Pembayaran</p>
+                                            <?php echo $this->db->count_all_results('tb_pembayaran');?>
                                         </div>
                                     </div>
                                 </div>
@@ -81,69 +81,43 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Users Behavior</h4>
-                                <p class="category">24 Hours performance</p>
+                                <h4 class="title">Data Rawat Jalan</h4>
+                                <p class="category"></p>
                             </div>
                             <div class="content">
-                                <div id="chartHours" class="ct-chart"></div>
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Click
-                                        <i class="fa fa-circle text-warning"></i> Click Second Time
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-reload"></i> Updated 3 minutes ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Email Statistics</h4>
-                                <p class="category">Last Campaign Performance</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Bounce
-                                        <i class="fa fa-circle text-warning"></i> Unsubscribe
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-timer"></i> Campaign sent 2 days ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">2015 Sales</h4>
-                                <p class="category">All products including Taxes</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartActivity" class="ct-chart"></div>
-
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Tesla Model S
-                                        <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-check"></i> Data information certified
-                                    </div>
-                                </div>
+                                <table id="projectdashboard" class="table table-striped table-bordered nowrap tb" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>No Rawat Jalan</th>
+                                            <th>No RM</th>
+                                            <th>Nama Pasien</th>
+                                            <th>Masuk Tanggal</th>
+                                            <th>Dokter</th>
+                                            <th>Aksi</th>
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                                         <?php
+                                        $no = 0;
+                                            foreach ($rawat as $data) {
+                                                echo '<tr>
+                                                        <td>'.++$no.'</td>
+                                                        <td>'.$data->no_rj.'</td>
+                                                        <td>'.$data->no_rm.'</td>
+                                                        <td>'.$data->nama_pasien.'</td>
+                                                        <td>'.$data->created.'</td>
+                                                        <td>'.$data->nama_dokter.'</td>
+                                                        <td>
+                                                            <a href="'.base_url().'index.php/admin/cetak_nota/'.$data->no_rj.'" class="btn btn-fill btn-info"><i class="fa fa-print"></i> Cetak Nota</a>
+                                                            <a href="" class="btn btn-fill btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                                        </td>
+                                                    </tr>';
+                                                }
+                                            ?>                    
+                                                        
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

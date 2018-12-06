@@ -61,6 +61,16 @@
             z-index: 1;
             width: 100%;
         }
+        .form-barang{
+            background: transparent;
+            width: 100%;
+            border: none;
+        }
+        .scroll{
+            height: 250px;
+            overflow-y: scroll;
+            margin: 10px 0 10px 0;
+        }
     </style>
     <script type="text/javascript">
        $.noConflict();
@@ -194,7 +204,7 @@
                     </ul> -->
                 </nav>
                 <div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+                   
                 </div>
             </div>
         </footer>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Des 2018 pada 08.49
+-- Waktu pembuatan: 06 Des 2018 pada 16.51
 -- Versi server: 10.1.34-MariaDB
 -- Versi PHP: 7.2.7
 
@@ -21,6 +21,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_rawatjalan`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_detail_pembayaran`
+--
+
+CREATE TABLE `tb_detail_pembayaran` (
+  `no_detail_pembayaran` int(11) NOT NULL,
+  `no_rj` varchar(255) NOT NULL,
+  `no_rm` varchar(200) NOT NULL,
+  `nama_pasien` varchar(200) NOT NULL,
+  `tarif` double NOT NULL,
+  `jumlah` double NOT NULL,
+  `subtotal` double NOT NULL,
+  `no_pembayaran` varchar(200) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tb_detail_pembayaran`
+--
+
+INSERT INTO `tb_detail_pembayaran` (`no_detail_pembayaran`, `no_rj`, `no_rm`, `nama_pasien`, `tarif`, `jumlah`, `subtotal`, `no_pembayaran`, `created`, `updated`, `deleted`) VALUES
+(1, '1', '1', 'Arya Bayu', 900000, 1, 900000, '2', '2018-12-06 22:08:16', '2018-12-06 22:08:16', 0);
 
 -- --------------------------------------------------------
 
@@ -66,7 +93,8 @@ CREATE TABLE `tb_keluarga_pasien` (
 --
 
 INSERT INTO `tb_keluarga_pasien` (`no_kp`, `nama_keluarga`, `hubungan`, `id_pasien`, `created`, `updated`, `deleted`) VALUES
-(1, 'Yuna', 'Kakak', '1', '2018-12-06 12:17:20', '2018-12-06 12:17:20', 0);
+(1, 'Yuna', 'Kakak', '1', '2018-12-06 12:17:20', '2018-12-06 12:17:20', 0),
+(2, 'Sholikha', 'Kakak', '2', '2018-12-06 17:07:10', '2018-12-06 17:07:10', 0);
 
 -- --------------------------------------------------------
 
@@ -93,7 +121,8 @@ CREATE TABLE `tb_pasien` (
 --
 
 INSERT INTO `tb_pasien` (`no_rm`, `nama_pasien`, `alamat_pasien`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `no_hp`, `status`, `created`, `updated`, `deleted`) VALUES
-(1, 'Arya Bayu', 'Sidoarjo', 'Laki - laki', 'Kediri', '0000-00-00', '0895364791632', 'Dilayani', '2018-12-06 12:17:20', '2018-12-06 12:17:20', 0);
+(1, 'Arya Bayu', 'Sidoarjo', 'Laki - laki', 'Kediri', '0000-00-00', '0895364791632', 'Dilayani', '2018-12-06 12:17:20', '2018-12-06 12:17:20', 0),
+(2, 'Ilhamudin', 'Surabaya', 'Laki - laki', 'Surabaya', '2014-10-01', '0895364791632', 'Dilayani', '2018-12-06 17:07:10', '2018-12-06 17:07:10', 0);
 
 -- --------------------------------------------------------
 
@@ -103,14 +132,23 @@ INSERT INTO `tb_pasien` (`no_rm`, `nama_pasien`, `alamat_pasien`, `jenis_kelamin
 
 CREATE TABLE `tb_pembayaran` (
   `no_pembayaran` int(11) NOT NULL,
-  `no_rj` varchar(255) NOT NULL,
-  `nominal` double NOT NULL,
+  `total` double NOT NULL,
+  `bayar` double NOT NULL,
+  `kembali` double NOT NULL,
   `jenis_pembayaran` varchar(200) NOT NULL,
   `keterangan` varchar(255) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tb_pembayaran`
+--
+
+INSERT INTO `tb_pembayaran` (`no_pembayaran`, `total`, `bayar`, `kembali`, `jenis_pembayaran`, `keterangan`, `created`, `updated`, `deleted`) VALUES
+(1, 900000, 1100000, 200000, 'Umum', 'Pembayaran Lunas', '2018-12-06 22:06:55', '2018-12-06 22:06:55', 0),
+(2, 900000, 1100000, 200000, 'Umum', 'Pembayaran ', '2018-12-06 22:08:16', '2018-12-06 22:08:16', 0);
 
 -- --------------------------------------------------------
 
@@ -147,6 +185,12 @@ INSERT INTO `tb_rawat_jalan` (`no_rj`, `pembayaran`, `no_asuransi`, `penanggung_
 --
 
 --
+-- Indeks untuk tabel `tb_detail_pembayaran`
+--
+ALTER TABLE `tb_detail_pembayaran`
+  ADD PRIMARY KEY (`no_detail_pembayaran`);
+
+--
 -- Indeks untuk tabel `tb_dokter`
 --
 ALTER TABLE `tb_dokter`
@@ -181,6 +225,12 @@ ALTER TABLE `tb_rawat_jalan`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `tb_detail_pembayaran`
+--
+ALTER TABLE `tb_detail_pembayaran`
+  MODIFY `no_detail_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `tb_dokter`
 --
 ALTER TABLE `tb_dokter`
@@ -190,19 +240,19 @@ ALTER TABLE `tb_dokter`
 -- AUTO_INCREMENT untuk tabel `tb_keluarga_pasien`
 --
 ALTER TABLE `tb_keluarga_pasien`
-  MODIFY `no_kp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `no_kp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pasien`
 --
 ALTER TABLE `tb_pasien`
-  MODIFY `no_rm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `no_rm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pembayaran`
 --
 ALTER TABLE `tb_pembayaran`
-  MODIFY `no_pembayaran` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `no_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_rawat_jalan`

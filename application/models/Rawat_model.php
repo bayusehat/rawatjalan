@@ -24,7 +24,11 @@ class Rawat_model extends CI_Model {
 
 	public function data_pembayaran()
 	{
-		return $this->db->get('tb_pembayaran')
+		return $this->db->select('tb_pembayaran.*,tb_detail_pembayaran.*')
+						->from('tb_pembayaran')
+						->join('tb_detail_pembayaran','tb_pembayaran.no_pembayaran=tb_detail_pembayaran.no_pembayaran','left')
+						->group_by('tb_pembayaran.no_pembayaran')
+						->get()
 						->result();
 	}
 
@@ -49,6 +53,17 @@ class Rawat_model extends CI_Model {
 						->join('tb_pasien','tb_rawat_jalan.id_pasien=tb_pasien.no_rm')
 						->join('tb_dokter','tb_rawat_jalan.id_dokter=tb_dokter.no_dokter')
 						->where('no_rj',$no_rj)
+						->get()
+						->row();
+	}
+
+	public function get_bukti_pembayaran($no_pembayaran)
+	{
+		return $this->db->select('tb_pembayaran.*,tb_detail_pembayaran.*')
+						->from('tb_pembayaran')
+						->join('tb_detail_pembayaran','tb_pembayaran.no_pembayaran=tb_detail_pembayaran.no_pembayaran','left')
+						->group_by('tb_pembayaran.no_pembayaran')
+						->where('tb_pembayaran.no_pembayaran',$no_pembayaran)
 						->get()
 						->row();
 	}
@@ -152,8 +167,65 @@ class Rawat_model extends CI_Model {
 		}
 	}
 
+	public function get_autocomplete($search_data)
+        {
+           return $this->db->select('tb_rawat_jalan.*,tb_pasien.*,tb_dokter.nama_dokter')
+						->from('tb_rawat_jalan')
+						->join('tb_pasien','tb_rawat_jalan.id_pasien=tb_pasien.no_rm')
+						->join('tb_dokter','tb_rawat_jalan.id_dokter=tb_dokter.no_dokter')
+	               		->like('nama_pasien', $search_data)
+	              		->or_like('no_rj', $search_data)
+	               		->where('tb_rawat_jalan.deleted',0)
+				   		->get()
+				   		->result(); 
+        }
+    public function tambah_pembayaran()
+    {
+    	$total = $this->input->post('total');
+    	$bayar = $this->input->post('bayar');
+    	$kembali = $this->input->post('kembali');
+    	$jenis_pembayaran = $this->input->post('jenis_pembayaran');
+    	$keterangan = $this->input->post('keterangan');
 
+    	$data = array(
+    		'total' => $total,
+    		'bayar' => $bayar,
+    		'kembali' => $kembali,
+    		'jenis_pembayaran' =>  $jenis_pembayaran,
+    		'keterangan' => $keterangan
+    	);
 
+    	$this->db->insert('tb_pembayaran',$data);
+    	$id = $this->db->insert_id();
+
+    	$no_rj = $this->input->post('no_rj');
+    	$no_rm = $this->input->post('no_rm');
+    	$nama_pasien = $this->input->post('nama_pasien');
+    	$tarif = $this->input->post('tarif');
+    	$jumlah = $this->input->post('jumlah');
+    	$subtotal = $this->input->post('subtotal');
+    	$detail = array();
+
+    	for ($i=0; $i <count($no_rj) ; $i++) { 
+    		$detail[] = array(
+    			'no_rj' => $no_rj[$i],
+    			'no_rm' => $no_rm[$i],
+    			'nama_pasien' => $nama_pasien[$i],
+    			'tarif' => $tarif[$i],
+    			'jumlah' => $jumlah[$i],
+    			'subtotal' => $subtotal[$i],
+    			'no_pembayaran' => $id 
+    		);
+
+    		$this->db->insert_batch('tb_detail_pembayaran',$detail,$id);
+
+    		if($this->db->affected_rows() > 0){
+    			return TRUE;
+    		}else{
+    			return FALSE;
+    		}
+    	}
+    }
 }
 
 /* End of file Rawat_model.php */

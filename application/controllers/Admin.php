@@ -12,6 +12,7 @@ class Admin extends CI_Controller {
 	public function index()
 	{
 		$data['main_view'] = 'dashboard';
+		$data['rawat'] = $this->Rawat_model->data_rawat_jalan();
 		$this->load->view('template',$data);
 	}
 
@@ -103,6 +104,20 @@ class Admin extends CI_Controller {
 		$this->dompdf->stream('CetakNota.pdf',array('Attachment'=>0));
 	}
 
+	public function cetak_bukti_pembayaran($no_pembayaran)
+	{
+		$data['bayar'] = $this->Rawat_model->get_bukti_pembayaran($no_pembayaran);
+		$this->load->view('cetak_bukti_pembayaran', $data);
+		$html = $this->output->get_output();
+		$this->load->library('pdf');
+		// $customPaper= array(0,0,360,600);
+		$this->dompdf->setPaper('A4','portrait');
+		$this->dompdf->set_option('isHtml5ParserEnabled', true);
+		$this->dompdf->loadHtml($html);
+		$this->dompdf->render();
+		$this->dompdf->stream('CetakNota.pdf',array('Attachment'=>0));
+	}
+
 	public function data_dokter()
 	{
 		$data['main_view'] = 'data_dokter';
@@ -119,6 +134,61 @@ class Admin extends CI_Controller {
 		}else{
 			$this->session->set_flashdata('gagal', 'Dokter gagal disimpan');
 			redirect('admin/data_dokter','refresh');
+		}
+	}
+
+	public function get_autocomplete()
+	{
+		 $search_data = $this->input->post('search_data');
+
+        $result = $this->Rawat_model->get_autocomplete($search_data);
+
+        if (!empty($result))
+          	{
+               foreach ($result as $row){
+               		if($row->deleted == 0){
+
+               		echo '<li>
+               			<a class="list" style="display:block;cursor:pointer" data-rj="'.$row->no_rj.'" data-rm="'.$row->no_rm.'" data-pasien="'.$row->nama_pasien.'" data-tarif="'.$row->tarif.'" onclick="add_rawat(this);">
+		                <div class="row">
+		                <div class="col-sm-6">
+		               ' .$row->no_rm.' - ' . $row->nama_pasien .' 
+		                </div>
+		                <div class="col-sm-6">
+                		<input type="number" class="quantity input-sm qty form-barang" name="quantity" id="'.$row->no_rj.'" value="1" min="0" />
+                		</div>
+                		</div>
+                		</a>
+                		</li>';
+                	}else{
+
+                		echo "";
+                	}
+
+            	}
+                
+            }
+        else
+         	{
+                echo "<li> <em> Not found ... </em> </li>";
+            }
+	}
+
+	public function ke_pembayaran()
+	{
+		$data['main_view'] = 'tambah_pembayaran';
+
+		$this->load->view('template', $data);
+	}
+
+	public function tambah_pembayaran()
+	{
+		if($this->Rawat_model->tambah_pembayaran() == TRUE){
+			$this->session->set_flashdata('berhasil', 'Pembayaran berhasil disimpan');
+			redirect('admin/data_pembayaran','refresh');
+		}else{
+			$this->session->set_flashdata('gagal', 'Pembayaran gagal disimpan');
+			redirect('admin/ke_pembayaran','refresh');
 		}
 	}
 

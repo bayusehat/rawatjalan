@@ -41,7 +41,7 @@
                                             <td>'.$data->jenis_kelamin.'</td>
                                             <td>'.$data->nama_keluarga.'</td>
                                             <td>
-                                                <a href="'.base_url().'index.php/admin/cetak_id/'.$data->no_rm.'" class="btn btn-fill btn-danger"><i class="fa fa-info"></i> Cetak ID</a>
+                                                <a href="'.base_url().'index.php/admin/cetak_id/'.$data->no_rm.'" class="btn btn-fill btn-info"><i class="fa fa-print"></i> Cetak ID</a>
                                                 <a href="" class="btn btn-fill btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                                             </td>
                                         </tr>';
