@@ -75,19 +75,33 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	// public function cetak_id()
-	// {
-	// 	$data['pasien'] = $this->Rawat_model->cetak_id_pasien($id_pasien);
-	// 	$this->load->view('cetak_id_pasien', $data);
-	// 	$html = $this->output->get_output();
-	// 	$this->load->library('pdf');
-	// 	$customPaper= array(0,0,360,360);
-	// 	$this->dompdf->setPaper($customPaper,'portrait');
-	// 	$this->dompdf->set_option('isHtml5ParserEnabled', true);
-	// 	$this->dompdf->loadHtml($html);
-	// 	$this->dompdf->render();
-	// 	$this->dompdf->stream('Cetak.pdf',array('Attachment'=>0));
-	// }
+	public function cetak_id($no_rm)
+	{
+		$data['pasien'] = $this->Rawat_model->get_id_pasien($no_rm);
+		$this->load->view('cetak_id_pasien', $data);
+		$html = $this->output->get_output();
+		$this->load->library('pdf');
+		$customPaper= array(0,0,360,300);
+		$this->dompdf->setPaper($customPaper,'portrait');
+		$this->dompdf->set_option('isHtml5ParserEnabled', true);
+		$this->dompdf->loadHtml($html);
+		$this->dompdf->render();
+		$this->dompdf->stream('Cetak.pdf',array('Attachment'=>0));
+	}
+
+	public function cetak_nota($no_rj)
+	{
+		$data['rawat'] = $this->Rawat_model->get_id_rawat($no_rj);
+		$this->load->view('cetak_nota_rawat_jalan', $data);
+		$html = $this->output->get_output();
+		$this->load->library('pdf');
+		$customPaper= array(0,0,360,600);
+		$this->dompdf->setPaper($customPaper,'portrait');
+		$this->dompdf->set_option('isHtml5ParserEnabled', true);
+		$this->dompdf->loadHtml($html);
+		$this->dompdf->render();
+		$this->dompdf->stream('CetakNota.pdf',array('Attachment'=>0));
+	}
 
 	public function data_dokter()
 	{

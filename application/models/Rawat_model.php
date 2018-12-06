@@ -34,6 +34,25 @@ class Rawat_model extends CI_Model {
 						->result();
 	}
 
+	public function get_id_pasien($no_rm)
+	{
+		return $this->db->select('*')
+						->where('no_rm',$no_rm)
+						->get('tb_pasien')
+						->row();
+	}
+
+	public function get_id_rawat($no_rj)
+	{
+		return $this->db->select('tb_rawat_jalan.*,tb_pasien.no_rm,tb_pasien.nama_pasien,tb_pasien.tanggal_lahir,tb_dokter.nama_dokter')
+						->from('tb_rawat_jalan')
+						->join('tb_pasien','tb_rawat_jalan.id_pasien=tb_pasien.no_rm')
+						->join('tb_dokter','tb_rawat_jalan.id_dokter=tb_dokter.no_dokter')
+						->where('no_rj',$no_rj)
+						->get()
+						->row();
+	}
+
 	public function tambah_pasien()
 	{
 		$nama = $this->input->post('nama_pasien');
@@ -125,7 +144,7 @@ class Rawat_model extends CI_Model {
 		);
 
 		$this->db->insert('tb_dokter',$data);
-		
+
 		if($this->db->affected_rows() > 0){
 			return TRUE;
 		}else{

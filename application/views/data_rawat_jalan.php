@@ -37,7 +37,7 @@
                                             <td>'.$data->created.'</td>
                                             <td>'.$data->nama_dokter.'</td>
                                             <td>
-                                                <a href="" class="btn btn-fill btn-info"><i class="fa fa-print"></i> Cetak Nota</a>
+                                                <a href="'.base_url().'index.php/admin/cetak_nota/'.$data->no_rj.'" class="btn btn-fill btn-info"><i class="fa fa-print"></i> Cetak Nota</a>
                                                 <a href="" class="btn btn-fill btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                                             </td>
                                         </tr>';
